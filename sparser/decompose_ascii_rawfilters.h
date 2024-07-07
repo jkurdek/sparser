@@ -42,7 +42,7 @@ ascii_rawfilters_t decompose(const char **predicates, int num_predicates) {
 		// How many REGSZ-length substrings are possible from this string?
 		int possible_substrings = len - REGSZ > 0 ? len - REGSZ + 1: 1;
 		// Include the full string in the count.
-		num_ascii_rawfilters += possible_substrings + 1;
+		num_ascii_rawfilters += possible_substrings + 0;
 
 		region_bytes += (possible_substrings * 5);
 	}
@@ -59,10 +59,10 @@ ascii_rawfilters_t decompose(const char **predicates, int num_predicates) {
 
 	for (int j = 0; j < num_predicates; j++) {
 		// Add the first string.
-		result[i] = predicates[j];	
-		lens[i] = strlen(predicates[j]);
-		sources[i] = j;
-		i++;
+		// result[i] = predicates[j];	
+		// lens[i] = strlen(predicates[j]);
+		// sources[i] = j;
+		// i++;
 		
 		int pred_length = strlen(predicates[j]);
 		for (int start = 0; start <= pred_length - REGSZ; start++) {

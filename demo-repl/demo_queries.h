@@ -22,7 +22,7 @@ typedef struct callback_info {
 // need to be packed, so that UnsafeRow reads them correctly
 #pragma pack(1)
 
-// ************************ DEMO QUERY 2 **************************
+// ************************ DEMO QUERY 1 **************************
 
 const char *DEMO_QUERY1_STR = "\n\
 SELECT count(*)\n\
@@ -30,7 +30,7 @@ FROM tweets\n\
 WHERE text contains \"Trump\" AND text contains \"Putin\"";
 
 json_passed_t demo_q1_text(const char *value, void *) {
-    return strstr(value, "Trump") && strstr(value, "Putin") ? JSON_PASS : JSON_FAIL;
+    return strstr(value, "music") && strstr(value, "singer") && strstr(value, "started") && strstr(value, "concert") && strstr(value, "performance") ? JSON_PASS : JSON_FAIL;
 }
 
 json_query_t demo_query1() {
@@ -40,17 +40,92 @@ json_query_t demo_query1() {
 }
 
 static const char **sparser_demo_query1(int *count) {
-    static const char *_1 = "Trump";
-    static const char *_2 = "Putin";
-    static const char *predicates[] = {_1, _2, NULL};
+    static const char *_1 = "music";
+    static const char *_2 = "singer";
+    static const char *_3 = "started";
+    static const char *_4 = "concert";
+    static const char *_5 = "performance";
+
+    static const char *predicates[] = { _1, _2, _3, _4, _5, NULL};
+
+    *count = 5;
+    return predicates;
+}
+
+// ************************ DEMO QUERY 2 **************************
+
+const char *DEMO_QUERY2_STR = "Donald Trump Sep 13\n";
+
+json_passed_t demo_q2_text(const char *value, void *) {
+    return strstr(value, "Donald Trump") && strstr(value, "Sep 13") ? JSON_PASS : JSON_FAIL;
+}
+
+json_query_t demo_query2() {
+    json_query_t query = json_query_new();
+    json_query_add_string_filter(query, "text", demo_q2_text);
+    return query;
+}
+
+static const char **sparser_demo_query2(int *count) {
+    static const char *_1 = "Donald Trump";
+    static const char *_2 = "Sep 13";
+
+    static const char *predicates[] = { _1, _2, NULL};
 
     *count = 2;
     return predicates;
 }
 
-// ************** All the queries we want to test **************
-const zakir_query_t demo_queries[] = {demo_query1, NULL};
-const sparser_zakir_query_preds_t sdemo_queries[] = { sparser_demo_query1, NULL };
-const char *demo_query_strings[] = { DEMO_QUERY1_STR, NULL };
+// ************************ DEMO QUERY 3 **************************
 
+const char *DEMO_QUERY3_STR = "Lord of the Rings\n";
+json_passed_t demo_q3_text(const char *value, void *) {
+    return strstr(value, "Lord of the Rings") ? JSON_PASS : JSON_FAIL;
+}
+
+json_query_t demo_query3() {
+    json_query_t query = json_query_new();
+    json_query_add_string_filter(query, "text", demo_q3_text);
+    return query;
+}
+
+static const char **sparser_demo_query3(int *count) {
+    static const char *_1 = "Lord of the Rings";
+
+    static const char *predicates[] = { _1, NULL};
+
+    *count = 1;
+    return predicates;
+}
+
+// ************************ DEMO QUERY 4 **************************
+//Now use this text LIKE '\%United Kingdom\%' \par AND text LIKE '\%economy\%' \par AND text LIKE '\%bank\%' \par AND text LIKE '\%business\%' & xxx & xxx & xxx & xxx \\ \hline
+const char *DEMO_QUERY4_STR = "United Kingdom economy bank news\n";
+
+json_passed_t demo_q4_text(const char *value, void *) {
+    return strstr(value, "processor") && strstr(value, "algorithm") && strstr(value, "optimal") && strstr(value, "search") ? JSON_PASS : JSON_FAIL;
+}
+
+json_query_t demo_query4() {
+    json_query_t query = json_query_new();
+    json_query_add_string_filter(query, "text", demo_q4_text);
+    return query;
+}
+
+static const char **sparser_demo_query4(int *count) {
+    static const char *_1 = "processor";
+    static const char *_2 = "algorithm";
+    static const char *_3 = "optimal";
+    static const char *_4 = "search";
+
+    static const char *predicates[] = { _1, _2, _3, _4, NULL};
+
+    *count = 4;
+    return predicates;
+}
+
+// ************** All the queries we want to test **************
+const zakir_query_t demo_queries[] = {demo_query1, demo_query2, demo_query3, demo_query4, NULL};
+const sparser_zakir_query_preds_t sdemo_queries[] = { sparser_demo_query1, sparser_demo_query2, sparser_demo_query3, sparser_demo_query4, NULL};
+const char *demo_query_strings[] = { DEMO_QUERY1_STR, DEMO_QUERY2_STR, DEMO_QUERY3_STR, DEMO_QUERY4_STR, NULL};
 #endif
