@@ -9,10 +9,10 @@ all:
 
 
 debug:
-	$(CC) $(CFLAGS) -O0 -g -DDEBUG $(INCLUDES) bench.cpp -o bench
+	$(CC) $(CFLAGS) -O0 -g -DDEBUG $(INCLUDES) query_driver.cpp -o bench
 
 asm:
-	$(CC) $(CFLAGS) $(INCLUDES) bench.cpp -S
+	$(CC) $(CFLAGS) $(INCLUDES) query_driver.cpp -S
 
 clean:
 	rm -rf bench bench.dSYM *.s
