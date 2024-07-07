@@ -43,7 +43,7 @@
 
 // For debugging
 #ifdef DEBUG
-#define SPARSER_DBG(...) do{ fprintf( stderr, __VA_ARGS__ ); } while( false )
+#define SPARSER_DBG(...) do{ fprintf( stdout, __VA_ARGS__ ); } while( false )
 #else
 #define SPARSER_DBG(...) do{ } while ( false )
 #endif
@@ -255,11 +255,13 @@ void search_schedules(ascii_rawfilters_t *predicates,
 		double rate = ((double)joint_rate) / sd->num_records;
 		SPARSER_DBG("\t Rate after %s (rate of full parse): %f\n", predicates->strings[result[result_len-1]], rate);
 		total_cost += filter_cost * rate;
+		SPARSER_DBG("Considering schedule %s...", printer);
 		SPARSER_DBG("\tCost: %f\n", total_cost);
 
 		if (total_cost < sd->best_cost) {
 			assert(result_len <= MAX_SCHEDULE_SIZE);
 			memcpy(sd->best_schedule, result, sizeof(int) * result_len);
+			sd->best_cost = total_cost;
 			sd->schedule_len = result_len;
 		}
 
@@ -529,6 +531,7 @@ sparser_stats_t *sparser_search(char *input, long length, BYTE delimiter,
         stats.fraction_passed_incorrect = 1.0 - stats.fraction_passed_correct;
     }
 
+		SPARSER_DBG("sparser passed: %ld\n", stats.sparser_passed);
     sparser_stats_t *ret = (sparser_stats_t *)malloc(sizeof(sparser_stats_t));
     memcpy(ret, &stats, sizeof(stats));
 
