@@ -24,13 +24,15 @@ typedef struct callback_info {
 
 // ************************ DEMO QUERY 2 **************************
 
-const char *DEMO_QUERY1_STR = "\n\
+const char *DEMO_QUERY1_STR =
+    "\n\
 SELECT count(*)\n\
 FROM tweets\n\
 WHERE text contains \"Trump\" AND text contains \"Putin\"";
 
 json_passed_t demo_q1_text(const char *value, void *) {
-    return strstr(value, "Trump") && strstr(value, "Putin") ? JSON_PASS : JSON_FAIL;
+    return strstr(value, "Trump") && strstr(value, "Putin") ? JSON_PASS
+                                                            : JSON_FAIL;
 }
 
 json_query_t demo_query1() {
@@ -50,7 +52,7 @@ static const char **sparser_demo_query1(int *count) {
 
 // ************** All the queries we want to test **************
 const zakir_query_t demo_queries[] = {demo_query1, NULL};
-const sparser_zakir_query_preds_t sdemo_queries[] = { sparser_demo_query1, NULL };
-const char *demo_query_strings[] = { DEMO_QUERY1_STR, NULL };
+const sparser_zakir_query_preds_t sdemo_queries[] = {sparser_demo_query1, NULL};
+const char *demo_query_strings[] = {DEMO_QUERY1_STR, NULL};
 
 #endif
