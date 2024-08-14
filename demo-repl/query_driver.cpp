@@ -15,7 +15,7 @@
 struct callback_data {
     long count;
     json_query_t query;
-};    
+};
 
 int _rapidjson_parse_callback(const char *line, void *query) {
     if (!query) return false;

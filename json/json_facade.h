@@ -36,9 +36,9 @@ typedef enum {
 
 /** A callback for string filters.
  *
- * @param int64_t the JSON value found in the document
- * @param data user data
- *
+ * @param char* a pointer to the string found in the document
+ * @param void* user data that can be passed to the callback
+ * @return json_passed_t the result of processing the string
  */
 typedef json_passed_t (*json_filter_string_callback_t)(const char *, void *);
 
@@ -158,11 +158,11 @@ void json_node_print(query_node_t *node) {
                 printf("%s", node->filter_value.string);
                 break;
             case JSON_TYPE_INT:
-						#ifdef __linux__
+#ifdef __linux__
                 printf("%ld", node->filter_value.integer);
-						#else
+#else
                 printf("%lld", node->filter_value.integer);
-						#endif
+#endif
                 break;
             case JSON_TYPE_BOOL:
                 printf("%s", node->filter_value.boolean ? "true" : "false");
