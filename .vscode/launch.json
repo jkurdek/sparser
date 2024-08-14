@@ -9,10 +9,11 @@
       "type": "lldb",
       "request": "launch",
       "program": "${workspaceFolder}/demo-repl/bench",
-      "args": ["output_file.json"],
+      "args": ["large_sample_compact.json"],
       "cwd": "${workspaceFolder}",
       "env": {},
       "terminal": "console",
+      "stopOnEntry": false
       // "console": "integratedTerminal"
     }
   ]
