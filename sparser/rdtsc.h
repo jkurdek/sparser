@@ -41,6 +41,15 @@ static __inline__ unsigned long long rdtsc(void)
   return(result);
 }
 
+#elif defined(__aarch64__)  // ARM64 (Apple Silicon, ARMv8)
+
+static __inline__ uint64_t rdtsc(void) {
+    uint64_t val;
+    __asm__ volatile("mrs %0, cntvct_el0"
+                     : "=r"(val));  // Read virtual counter register
+    return val;
+}
+
 #else
 
 #error "No tick counter is available!"
