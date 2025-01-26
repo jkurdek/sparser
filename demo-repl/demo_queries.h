@@ -1,6 +1,7 @@
 #ifndef _DEMO_QUERIES_H_
 #define _DEMO_QUERIES_H_
 
+#include <cstring>
 #include "rapidjson_engine.h"
 
 // The RapidJSON query engine.
@@ -22,37 +23,62 @@ typedef struct callback_info {
 // need to be packed, so that UnsafeRow reads them correctly
 #pragma pack(1)
 
-// ************************ DEMO QUERY 2 **************************
+// ************************ DEMO QUERY 1 **************************
 
-const char *DEMO_QUERY1_STR =
+// const char *DEMO_QUERY1_STR =
+//     "\n\
+// SELECT count(*)\n\
+// FROM tweets\n\
+// WHERE text contains \"Trump\" AND text contains \"Putin\"";
+
+// json_passed_t demo_q1_text(const char *value, void *) {
+//     return strstr(value, "Trump") && strstr(value, "Putin") ? JSON_PASS
+//                                                             : JSON_FAIL;
+// }
+
+// json_query_t demo_query1() {
+//     json_query_t query = json_query_new();
+//     json_query_add_string_filter(query, "text", demo_q1_text);
+//     return query;
+// }
+
+// static const char **sparser_demo_query1(int *count) {
+//     static const char *_1 = "Trump";
+//     static const char *_2 = "Putin";
+//     static const char *predicates[] = {_1, _2, NULL};
+
+//     *count = 2;
+//     return predicates;
+// }
+
+// ************************ DEMO QUERY 2 **************************
+const char *DEMO_QUERY2_STR =
     "\n\
 SELECT count(*)\n\
 FROM tweets\n\
-WHERE text contains \"Trump\" AND text contains \"Putin\"";
+WHERE text contains \"Trump\" OR text contains \"Putin\"";
 
-json_passed_t demo_q1_text(const char *value, void *) {
-    return strstr(value, "Trump") && strstr(value, "Putin") ? JSON_PASS
-                                                            : JSON_FAIL;
+json_passed_t demo_q2_text(const char *value, void *) {
+    return strstr(value, "Lord of the Rings") ? JSON_PASS : JSON_FAIL;
 }
 
-json_query_t demo_query1() {
+json_query_t demo_query2() {
     json_query_t query = json_query_new();
-    json_query_add_string_filter(query, "text", demo_q1_text);
+    json_query_add_string_filter(query, "text", demo_q2_text);
     return query;
 }
 
-static const char **sparser_demo_query1(int *count) {
-    static const char *_1 = "Trump";
-    static const char *_2 = "Putin";
-    static const char *predicates[] = {_1, _2, NULL};
+static const char **sparser_demo_query2(int *count) {
+    static const char *_1 = "Lord of the Rings";
+    static const char *predicates[] = {_1, NULL};
 
-    *count = 2;
+    *count = 1;
     return predicates;
 }
 
 // ************** All the queries we want to test **************
-const zakir_query_t demo_queries[] = {demo_query1, NULL};
-const sparser_zakir_query_preds_t sdemo_queries[] = {sparser_demo_query1, NULL};
-const char *demo_query_strings[] = {DEMO_QUERY1_STR, NULL};
+const zakir_query_t demo_queries[] = {demo_query2, NULL};
+const sparser_zakir_query_preds_t sdemo_queries[] = {sparser_demo_query2, NULL};
+const char *demo_query_strings[] = {DEMO_QUERY2_STR, NULL};
 
 #endif

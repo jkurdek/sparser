@@ -436,7 +436,7 @@ sparser_query_t *sparser_calibrate(BYTE *sample, long length, BYTE delimiter,
         strcat(printer, predicates->strings[sd.best_schedule[i]]);
         strcat(printer, " ");
     }
-    SPARSER_DBG("Best schedule: %s\n", printer);
+    printf("Best schedule: %s\n", printer);
 
     sparser_query_t *squery = sparser_new_query();
     memset(squery, 0, sizeof(sparser_query_t));
