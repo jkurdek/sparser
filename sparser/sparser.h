@@ -187,7 +187,7 @@ int sparser_add_query(sparser_query_t *query, const void *string, size_t len) {
 
 /** Cost in CPU cycles of a raw filter which searches for a term of length
  * `len`. */
-double rf_cost(const size_t len) { return len * 8.0; }
+double rf_cost(const size_t len) { return 0;}
 
 /** Searches through combinations of raw filters to evaluate the best schedule.
  *
